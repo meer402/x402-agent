@@ -20,18 +20,8 @@
 //   • "Venice E2EE"  (private analysis)
 // ─────────────────────────────────────────────────────────────────────────────
 
-type ChatMessage = {
-  role: string;
-  content: string;
-};
-
-type VeniceConfig = {
-  baseUrl: string;
-  walletPrivateKey?: `0x${string}`;
-  e2eeModel: string;
-  fastModel: string;
-  defaultNetwork: string;
-};
+import type { ChatMessage, VeniceConfig } from "./types";
+import { buildSiwxHeader, checkX402Balance } from "./x402";
 
 import { CryptoRpcClient } from "./rpc";
 import { fetchAndVerifyAttestation, e2eeChatCompletion } from "./e2ee";
