@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
+
 
 export const metadata: Metadata = {
   title: "Frontier Privacy Agent - Anonymous and private AI for everyone.",

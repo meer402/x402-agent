@@ -361,6 +361,9 @@ function PageView(p: ViewProps) {
         everything via <b>x402</b> (USDC on Base or Solana) ·{" "}
         {p.isPrivate ? "encrypted, no tools" : "live tools + web"}
       </span>
+      <span className="legal-foot">
+        {" · "}<a href="/privacy">Privacy</a>{" · "}<a href="/terms">Terms</a>
+      </span>
     </div>
   ) : null;
 
@@ -450,7 +453,7 @@ function PageView(p: ViewProps) {
             <img className="hero-logo" src="/favicon.svg" alt="Mee" />
             <h1 className="hero-title"></h1>
             <p className="hero-sub">
-              Privacy-first AI agent.
+              A private personal agent for everyone.
             </p>
             <span className={`mode-tag ${p.isPrivate ? "priv" : "web"}`}>
               {p.isPrivate ? "🔒 Private E2EE · no live tools" : "🌐 Live on-chain tools + web search"}
