@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import SiteFooter from "../components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Privacy Policy · Meerkatt AI -Frontier Privacy Agent",
@@ -121,9 +122,7 @@ export default function PrivacyPage() {
         Questions about privacy: <a href={`mailto:${CONTACT}`}>{CONTACT}</a>
       </p>
 
-      <p className="legal-links">
-        <Link href="/terms">Terms of Service</Link>
-      </p>
+      <SiteFooter />
     </main>
   );
 }

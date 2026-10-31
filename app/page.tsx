@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Markdown } from "./markdown";
+import SiteFooter from "./components/SiteFooter";
 
 interface ModelOption {
   id: string;
@@ -361,9 +362,6 @@ function PageView(p: ViewProps) {
         everything via <b>x402</b> (USDC on Base or Solana) ·{" "}
         {p.isPrivate ? "encrypted, no tools" : "live tools + web"}
       </span>
-      <span className="legal-foot">
-        {" · "}<a href="/privacy">Privacy</a>{" · "}<a href="/terms">Terms</a>
-      </span>
     </div>
   ) : null;
 
@@ -511,6 +509,7 @@ function PageView(p: ViewProps) {
           {footLine}
         </footer>
       )}
+      <SiteFooter />
       </div>
     </div>
   );

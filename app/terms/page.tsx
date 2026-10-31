@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import SiteFooter from "../components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Terms of Service · Meerkatt AI",
@@ -131,9 +132,7 @@ export default function TermsPage() {
         Questions about these terms: <a href={`mailto:${CONTACT}`}>{CONTACT}</a>
       </p>
 
-      <p className="legal-links">
-        <Link href="/privacy">Privacy Policy</Link>
-      </p>
+      <SiteFooter />
     </main>
   );
 }
