@@ -10,9 +10,10 @@
 // agentic chat path, not the E2EE path.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { encodeFunctionData, parseAbi, decodeAbiParameters } from "viem";
+import { encodeFunctionData, parseAbi, decodeAbiParameters, parseUnits } from "viem";
 import type { CryptoRpcClient } from "./rpc";
 import { SUPPORTED_NETWORKS } from "../util";
+import { getSwapQuote, NATIVE_TOKEN, UNISWAP_CHAIN_IDS } from "../uniswap";
 
 export interface ToolDef {
   type: "function";
@@ -122,6 +123,26 @@ export const ONCHAIN_TOOLS: ToolDef[] = [
           params: { type: "array", description: "JSON-RPC params array", items: {} },
         },
         required: ["method", "params"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_swap_quote",
+      description:
+        "Get a Uniswap swap QUOTE (price, expected output, route, gas). Quote only: this never executes a trade — tell the user they would sign any swap in their own wallet. Use 0x0000000000000000000000000000000000000000 for the native coin (ETH). Quotes go stale in ~30s.",
+      parameters: {
+        type: "object",
+        properties: {
+          token_in: { type: "string", description: "0x address of the token being sold (0x000…000 for native)" },
+          token_out: { type: "string", description: "0x address of the token being bought (0x000…000 for native)" },
+          amount: { type: "string", description: "Exact input amount in human units, e.g. \"1.5\"" },
+          network: { type: "string", enum: NETWORK_ENUM, description: "Network slug, default base-mainnet" },
+          swapper: { type: "string", description: "Optional: the user's wallet address, for a more accurate quote" },
+          slippage: { type: "number", description: "Slippage tolerance in percent, default 0.5" },
+        },
+        required: ["token_in", "token_out", "amount"],
       },
     },
   },
@@ -293,6 +314,45 @@ export async function runTool(
         symbol: dec(symHex),
         decimals,
         totalSupply: fmtUnits(supply, decimals),
+      };
+    }
+
+    case "get_swap_quote": {
+      const chainId = UNISWAP_CHAIN_IDS[network];
+      if (!chainId) return { error: `Uniswap quotes are not available on ${network}` };
+      const tokenIn = String(args.token_in);
+      const tokenOut = String(args.token_out);
+      const human = String(args.amount);
+      if (!/^[0-9]+\.?[0-9]*$/.test(human)) return { error: `Invalid amount: ${human}` };
+
+      const decimalsOf = async (token: string) => {
+        if (token.toLowerCase() === NATIVE_TOKEN) return 18;
+        const h = (await rawCall(rpc, network, "eth_call", [
+          { to: token, data: encodeFunctionData({ abi: ERC20_ABI, functionName: "decimals" }) },
+          "latest",
+        ])) as string;
+        return h && h !== "0x" ? Number(BigInt(h)) : 18;
+      };
+      const [decIn, decOut] = await Promise.all([decimalsOf(tokenIn), decimalsOf(tokenOut)]);
+
+      const quote = await getSwapQuote({
+        chainId,
+        tokenIn,
+        tokenOut,
+        amount: parseUnits(human, decIn).toString(),
+        swapper: args.swapper ? String(args.swapper) : undefined,
+        slippageTolerance: typeof args.slippage === "number" ? args.slippage : undefined,
+      });
+      return {
+        network,
+        quoteOnly: true,
+        routing: quote.routing,
+        amountIn: fmtUnits(BigInt(quote.amountIn), decIn),
+        amountOut: fmtUnits(BigInt(quote.amountOut), decOut),
+        amountOutMin: quote.amountOutMin ? fmtUnits(BigInt(quote.amountOutMin), decOut) : undefined,
+        gasFeeUSD: quote.gasFeeUSD,
+        gasless: quote.gasless,
+        route: quote.route,
       };
     }
 

@@ -31,9 +31,9 @@ interface Turn {
 
 const SUGGESTIONS = [
   {
-    icon: "🧠",
-    title: "Learn about a topic",
-    hint: "Inspect the VVV token on Base",
+    icon: "🎮",
+    title: "Build a first person shooter game",
+    hint: "Learn to build games using AI on Base",
     prompt: "Analyze 0xacfE6019Ed1A7Dc6f7B508C02d1b04ec88cC21bf on Base",
   },
   {
@@ -44,8 +44,8 @@ const SUGGESTIONS = [
   },
   {
     icon: "🖼️",
-    title: "Create an infographic",
-    hint: "Generate an image of its holdings",
+    title: "Create images and video",
+    hint: "Generate an image of a cat riding a unicorn",
     prompt: "Scan the holdings of 0xacfE6019Ed1A7Dc6f7B508C02d1b04ec88cC21bf on Base, then generate an infographic image of them",
   },
 ];
@@ -448,9 +448,9 @@ function PageView(p: ViewProps) {
           <div className="hero">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="hero-logo" src="/favicon.svg" alt="Mee" />
-            <h1 className="hero-title">Privacy Agent</h1>
+            <h1 className="hero-title"></h1>
             <p className="hero-sub">
-              Your first privacy-first AI agent.
+              Privacy-first AI agent.
             </p>
             <span className={`mode-tag ${p.isPrivate ? "priv" : "web"}`}>
               {p.isPrivate ? "🔒 Private E2EE · no live tools" : "🌐 Live on-chain tools + web search"}
