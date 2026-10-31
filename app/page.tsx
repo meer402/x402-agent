@@ -31,8 +31,8 @@ interface Turn {
 
 const SUGGESTIONS = [
   {
-    icon: "🔍",
-    title: "Analyze a contract",
+    icon: "🧠",
+    title: "Learn about a topic",
     hint: "Inspect the VVV token on Base",
     prompt: "Analyze 0xacfE6019Ed1A7Dc6f7B508C02d1b04ec88cC21bf on Base",
   },
@@ -44,7 +44,7 @@ const SUGGESTIONS = [
   },
   {
     icon: "🖼️",
-    title: "Visualize a wallet",
+    title: "Create an infographic",
     hint: "Generate an image of its holdings",
     prompt: "Scan the holdings of 0xacfE6019Ed1A7Dc6f7B508C02d1b04ec88cC21bf on Base, then generate an infographic image of them",
   },
@@ -394,7 +394,7 @@ function PageView(p: ViewProps) {
           ))}
         </div>
         <div className="sidebar-foot">
-          <img className="sidebar-logo" src="favicon.svg" alt="Meerkatt Beta" />
+          <img className="sidebar-logo" src="favicon.svg" alt="Meerkatt AI Beta" />
         </div>
       </aside>
 
@@ -450,8 +450,7 @@ function PageView(p: ViewProps) {
             <img className="hero-logo" src="/favicon.svg" alt="Mee" />
             <h1 className="hero-title">Privacy Agent</h1>
             <p className="hero-sub">
-              Reads the chain live with Venice Crypto RPC tools and web search.
-              Ask about any wallet, token, or contract.
+              Your first privacy-first AI agent.
             </p>
             <span className={`mode-tag ${p.isPrivate ? "priv" : "web"}`}>
               {p.isPrivate ? "🔒 Private E2EE · no live tools" : "🌐 Live on-chain tools + web search"}

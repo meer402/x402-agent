@@ -8,7 +8,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "keygen": "node scripts/generate-wallet.mjs",
+    "encrypt-key": "node scripts/encrypt-key.mjs",
+    "topup": "node --env-file=.env scripts/topup.mjs",
+    "smoke": "node --env-file=.env scripts/smoke-test.mjs"
   },
   "keywords": [
     "meerkatt",
@@ -35,6 +39,8 @@
     "@supabase/supabase-js": "2.118.0",
     "@x402/core": "^2.28.0",
     "@x402/express": "^2.28.0",
+    "@xdevplatform/xdk": "^0.6.6",
+    "@zkpass/transgate-js-sdk": "^0.4.5",
     "ai": "^7.0.153",
     "dotenv": "^18.0.8",
     "elliptic": "^6.6.1",
@@ -44,6 +50,8 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "siwe": "^3.0.0",
+    "venice-x402-client": "^0.2.0",
+    "viem": "^2.57.13",
     "x402": "^1.2.0"
   },
   "devDependencies": {
