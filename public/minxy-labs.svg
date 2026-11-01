@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Minxy Labs">
+  <title>Minxy Labs</title>
+  <defs>
+    <!-- "ML" built from chunky rounded blocks. -->
+    <g id="ml">
+      <!-- M: two full legs, a bridge set below the top (forming the notch), and a short centre drop -->
+      <rect x="8" y="17" width="8" height="29" rx="3"/>
+      <rect x="27" y="17" width="8" height="29" rx="3"/>
+      <rect x="12" y="23" width="19" height="8" rx="3"/>
+      <rect x="17.5" y="23" width="8" height="15" rx="3"/>
+      <!-- L: stem and foot -->
+      <rect x="39" y="17" width="8" height="29" rx="3"/>
+      <rect x="39" y="38" width="17" height="8" rx="3"/>
+    </g>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#1FE3C1"/>
+  <!-- offset drop shadow -->
+  <use href="#ml" transform="translate(2 2.5)" fill="#0B0B12" stroke="#0B0B12" stroke-width="4" stroke-linejoin="round"/>
+  <!-- outline, then fill on top so inner seams disappear -->
+  <use href="#ml" fill="#0B0B12" stroke="#0B0B12" stroke-width="4" stroke-linejoin="round"/>
+  <use href="#ml" fill="#FF1F8F"/>
+</svg>

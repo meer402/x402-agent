@@ -13,6 +13,12 @@ export default function SiteFooter() {
         <a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
       </nav>
       <span className="site-footer-copy">© {new Date().getFullYear()} Meerkatt AI</span>
+      <span className="site-footer-by">
+        by
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/minxy-labs.svg" alt="" width={18} height={18} />
+        Minxy Labs
+      </span>
     </footer>
   );
 }

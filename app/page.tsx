@@ -329,6 +329,16 @@ interface ViewProps {
 }
 
 function PageView(p: ViewProps) {
+  const [navOpen, setNavOpen] = useState(false);
+
+  // Close the mobile drawer on Escape.
+  useEffect(() => {
+    if (!navOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setNavOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [navOpen]);
+
   const empty = p.turns.length === 0;
   const walletChip = p.health?.wallet
     ? `$${p.health.wallet.balanceUsd?.toFixed?.(2) ?? p.health.wallet.balanceUsd}`
@@ -367,9 +377,21 @@ function PageView(p: ViewProps) {
 
   return (
     <div className="shell">
-      {/* ── Sidebar: conversation history ──────────────────────── */}
-      <aside className="sidebar">
-        <button className="new-chat" onClick={p.newChat} disabled={p.busy}>
+      {/* ── Sidebar: conversation history (off-canvas drawer on phones) ── */}
+      <div
+        className={`sidebar-backdrop ${navOpen ? "open" : ""}`}
+        onClick={() => setNavOpen(false)}
+        aria-hidden="true"
+      />
+      <aside id="chat-sidebar" className={`sidebar ${navOpen ? "open" : ""}`}>
+        <button
+          className="new-chat"
+          onClick={() => {
+            p.newChat();
+            setNavOpen(false);
+          }}
+          disabled={p.busy}
+        >
           <span className="plus">+</span> New chat
         </button>
         <div className="convo-list">
@@ -377,7 +399,10 @@ function PageView(p: ViewProps) {
             <div
               key={c.id}
               className={`convo ${c.id === p.activeId ? "active" : ""}`}
-              onClick={() => p.selectChat(c.id)}
+              onClick={() => {
+                p.selectChat(c.id);
+                setNavOpen(false);
+              }}
               title={c.title}
             >
               <span className="convo-title">{c.title || "New chat"}</span>
@@ -405,6 +430,15 @@ function PageView(p: ViewProps) {
       <header className="topbar">
         <div className="topbar-inner">
           <div className="brand">
+            <button
+              className="nav-toggle"
+              onClick={() => setNavOpen((o) => !o)}
+              aria-label={navOpen ? "Close chat history" : "Open chat history"}
+              aria-expanded={navOpen}
+              aria-controls="chat-sidebar"
+            >
+              <span /><span /><span />
+            </button>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="brand-logo" src="/beta.png" alt="Meerkatt AI" />
             <span className="brand-name"></span>
